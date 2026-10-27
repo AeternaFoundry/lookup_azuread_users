@@ -8,5 +8,12 @@ data "azuread_users" "users_lookup" {
   object_ids           = each.value.object_ids
   return_all           = each.value.return_all
   user_principal_names = each.value.user_principal_names
+
+  dynamic "timeouts" {
+    for_each = each.value.timeouts != null ? [each.value.timeouts] : []
+    content {
+      read = timeouts.value.read
+    }
+  }
 }
 
